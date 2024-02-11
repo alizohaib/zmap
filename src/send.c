@@ -314,7 +314,6 @@ int send_run(sock_t st, shard_t *s)
 	uint32_t current_ip;
 	struct in6_addr ipv6_dst;
 	
-	printf("ipv6: %d\n", ipv6);
 	if (ipv6) {
 		ipv6_target_file_get_ipv6(&ipv6_dst);
 		probe_data = malloc(2*sizeof(struct in6_addr));
