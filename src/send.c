@@ -253,7 +253,7 @@ int send_run(sock_t st, shard_t *s)
 	}
 
 	char mac_buf2[(ETHER_ADDR_LEN * 2) + (ETHER_ADDR_LEN - 1) + 1];
-	char *p = mac_buf2;
+	*p = mac_buf2;
 	for (int i = 0; i < ETHER_ADDR_LEN; i++) {
 		if (i == ETHER_ADDR_LEN - 1) {
 			snprintf(p, 3, "%.2x", zconf.hw_mac[i]);
