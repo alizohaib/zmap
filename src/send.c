@@ -464,6 +464,8 @@ int send_run(sock_t st, shard_t *s)
 
 					int any_sends_successful = 0;
 					for (int i = 0; i < attempts; ++i) {
+						printf("send_packet: %d\n",
+						       length);
 						int rc = send_packet(st, contents, length, idx);
 						if (rc < 0) {
 							// IPv6

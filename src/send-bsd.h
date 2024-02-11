@@ -31,7 +31,6 @@ int send_run_init(UNUSED sock_t sock)
 
 int send_packet(sock_t sock, void *buf, int len, UNUSED uint32_t idx)
 {	
-	printf("send_packet: %d\n", len);
 	return write(sock.sock, buf, len);
 }
 
