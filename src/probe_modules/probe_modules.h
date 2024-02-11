@@ -69,6 +69,7 @@ typedef struct probe_module {
 	// limiting by actually counting how much data is sent over the wire. We
 	// know the lengths of packets from the make_packet API.
 	size_t max_packet_length;
+	size_t max_packet2_length;
 
 	const char *pcap_filter;
 	size_t pcap_snaplen;
@@ -79,7 +80,9 @@ typedef struct probe_module {
 
 	probe_global_init_cb global_initialize;
 	probe_thread_init_cb thread_initialize;
+	probe_thread_init_cb thread_initialize2;
 	probe_make_packet_cb make_packet;
+	probe_make_packet_cb make_packet2;
 	probe_print_packet_cb print_packet;
 	probe_validate_packet_cb validate_packet;
 	probe_classify_packet_cb process_packet;

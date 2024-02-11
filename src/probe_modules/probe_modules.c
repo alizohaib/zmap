@@ -36,6 +36,7 @@ extern probe_module_t module_ipv6_udp_dns;
 extern probe_module_t module_icmp6_echoscan;
 extern probe_module_t module_quic_initial;
 extern probe_module_t module_ipv6_quic_initial;
+extern probe_module_t module_forbidden6_scan;
 
 // ADD YOUR MODULE HERE
 
@@ -50,7 +51,8 @@ probe_module_t* probe_modules[] = {
 	&module_ipv6_udp_dns,
 	&module_icmp6_echoscan,
 	&module_quic_initial,
-	&module_ipv6_quic_initial
+	&module_ipv6_quic_initial,
+	&module_forbidden6_scan,
 	// ADD YOUR MODULE HERE
 };
 

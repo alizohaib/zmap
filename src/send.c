@@ -255,6 +255,10 @@ int send_run(sock_t st, shard_t *s)
 		zconf.probe_module->thread_initialize(
 		    buf, zconf.hw_mac, zconf.gw_mac, zconf.target_port,
 		    &probe_data);
+
+		zconf.probe_module->thread_initialize2(
+		    buf, zconf.hw_mac, zconf.gw_mac, zconf.target_port,
+		    &probe_data);
 	}
 	pthread_mutex_unlock(&send_mutex);
 
@@ -417,6 +421,12 @@ int send_run(sock_t st, shard_t *s)
 				zconf.probe_module->make_packet(
 				    buf, &length, src_ip, current_ip, ttl,
 				    validation, i, probe_data);
+
+				size_t length2 = 0;
+				zconf.probe_module->make_packet2(
+				    buf, &length2, src_ip, current_ip, ttl,
+				    validation, i, probe_data);
+
 				if (length > MAX_PACKET_SIZE) {
 					log_fatal(
 					    "send",
