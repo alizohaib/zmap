@@ -224,14 +224,17 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	fs_add_uint64(fs, "payloadlen", (uint64_t)payloadlen);
 	fs_add_uint64(fs, "len", (uint64_t)mylen);
 	fs_add_uint64(fs, "flags", (uint64_t)tcp_hdr->th_flags);
-	fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ipv6_hdr->ip_id));
+
+	// ip_
+	// fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ipv6_hdr->ip_id));
+
     // Attempt to track why an IP responded - did it acknolwedge our payload or not? 
     // If it acknowledges our payload, than it is probably responding to our payload
     // otherwise, it may just be sending us SYN/ACKs or responses
     if (htonl(tcp_hdr->th_ack) == htonl(validation[0]) + PAYLOAD_LEN) {
 	    fs_add_uint64(fs, "validation_type", 0);
-    } else if ((htonl(tcp->th_ack) == htonl(validation[0])) ||
-               (htonl(tcp->th_seq) == htonl(validation[2]))) {
+    } else if ((htonl(tcp_hdr->th_ack) == htonl(validation[0])) ||
+               (htonl(tcp_hdr->th_seq) == htonl(validation[2]))) {
 	    fs_add_uint64(fs, "validation_type", 1);
     } else {
 	    fs_add_uint64(fs, "validation_type", 2);
