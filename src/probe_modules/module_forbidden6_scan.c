@@ -38,8 +38,7 @@ static uint32_t num_ports;
 
 static int forbidden6scan_global_initialize(struct state_conf *state)
 {
-	printf("Starting module. Packet out size: %d\n",
-	       TOTAL_LEN_PAYLOAD + TOTAL_LEN);
+	printf("Starting module. Packet out size: %d\n",TOTAL_LEN_PAYLOAD + TOTAL_LEN);
 	num_ports = state->source_port_last - state->source_port_first + 1;
 
 	if (asprintf((char **restrict)&module_forbidden6_scan.pcap_filter,
@@ -59,8 +58,8 @@ static int forbidden6scan_init_perthread(void *buf, macaddr_t *src,
 	struct ether_header *eth_header = (struct ether_header *)buf;
 	make_eth_header_ethertype(eth_header, src, gw, ETHERTYPE_IPV6);
 	struct ip6_hdr *ip6_header = (struct ip6_hdr *)(&eth_header[1]);
-	// uint16_t len = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN;
-	uint16_t len = htons(sizeof(struct ip6_hdr) + sizeof(struct tcphdr));
+	uint16_t len = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN;
+	// uint16_t len = htons(sizeof(struct ip6_hdr) + sizeof(struct tcphdr));
 
 	make_ip6_header(ip6_header, IPPROTO_TCP, len);
 	struct tcphdr *tcp_header = (struct tcphdr *)(&ip6_header[1]);
