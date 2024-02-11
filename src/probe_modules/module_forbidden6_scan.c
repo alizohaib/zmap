@@ -103,8 +103,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	ip6_header->ip6_ctlun.ip6_un1.ip6_un1_hlim = ttl;
 
 	tcp_header->th_sport = htons(get_src_port(num_ports, probe_num, validation));
-	tcp_header->th_seq = tcp_seq;
-	tcp_header->th_ack = 23;
+	tcp_header->th_seq = validation[0];
 	tcp_header->th_sum = 0;
 	
 
