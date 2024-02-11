@@ -33,8 +33,7 @@
 #define ETHER_LEN sizeof(struct ether_header)
 #define IP_LEN sizeof(struct ip)
 
-
-probe_module_t module_tcp_forbiddenscan;
+probe_module_t module_forbidden6_scan;
 static uint32_t num_ports;
 
 static int forbidden6scan_global_initialize(struct state_conf *state)
