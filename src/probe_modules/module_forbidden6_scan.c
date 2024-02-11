@@ -212,7 +212,7 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	struct tcphdr *tcp_hdr = (struct tcphdr *)(&ipv6_hdr[1]);
 
 	char *payload = (char *)(&tcp_hdr[1]);
-	int mylen = ntohs(ip6_hdr->ip6_ctlun.ip6_un1.ip6_un1_plen);
+	int mylen = ntohs(ipv6_hdr->ip6_ctlun.ip6_un1.ip6_un1_plen);
 	int payloadlen = mylen - IP_LEN - (tcp_hdr->th_off * 4);
 	mylen += ETHER_LEN;
 
@@ -224,7 +224,7 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	fs_add_uint64(fs, "payloadlen", (uint64_t)payloadlen);
 	fs_add_uint64(fs, "len", (uint64_t)mylen);
 	fs_add_uint64(fs, "flags", (uint64_t)tcp_hdr->th_flags);
-	fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ip6_hdr->ip_id));
+	fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ipv6_hdr->ip_id));
     // Attempt to track why an IP responded - did it acknolwedge our payload or not? 
     // If it acknowledges our payload, than it is probably responding to our payload
     // otherwise, it may just be sending us SYN/ACKs or responses
