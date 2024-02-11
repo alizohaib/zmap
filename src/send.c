@@ -135,7 +135,7 @@ iterator_t *send_init(void)
 	// Convert specified bandwidth to packet rate. This is an estimate using the
 	// max packet size a probe module will generate.
 	if (zconf.bandwidth > 0) {
-		size_t pkt_len = zconf.probe_module->max_packet_length;
+		size_t pkt_len = zconf.probe_module->max_packet_length + zconf.probe_module->max_packet2_length;
 		pkt_len *= 8;
 		// 7 byte MAC preamble, 1 byte Start frame, 4 byte CRC, 12 byte
 		// inter-frame gap
@@ -230,7 +230,9 @@ int send_run(sock_t st, shard_t *s)
 	pthread_mutex_lock(&send_mutex);
 	// Allocate a buffer to hold the outgoing packet
 	char buf[MAX_PACKET_SIZE];
+	char buf2[MAX_PACKET_SIZE];
 	memset(buf, 0, MAX_PACKET_SIZE);
+	memset(buf2, 0, MAX_PACKET_SIZE);
 
 	// OS specific per-thread init
 	if (send_run_init(st)) {
@@ -249,6 +251,18 @@ int send_run(sock_t st, shard_t *s)
 			p += 3;
 		}
 	}
+
+	char mac_buf2[(ETHER_ADDR_LEN * 2) + (ETHER_ADDR_LEN - 1) + 1];
+	char *p = mac_buf2;
+	for (int i = 0; i < ETHER_ADDR_LEN; i++) {
+		if (i == ETHER_ADDR_LEN - 1) {
+			snprintf(p, 3, "%.2x", zconf.hw_mac[i]);
+			p += 2;
+		} else {
+			snprintf(p, 4, "%.2x:", zconf.hw_mac[i]);
+			p += 3;
+		}
+	}
 	log_debug("send", "source MAC address %s", mac_buf);
 	void *probe_data;
 	if (zconf.probe_module->thread_initialize) {
@@ -257,7 +271,7 @@ int send_run(sock_t st, shard_t *s)
 		    &probe_data);
 
 		zconf.probe_module->thread_initialize2(
-		    buf, zconf.hw_mac, zconf.gw_mac, zconf.target_port,
+		    buf2, zconf.hw_mac, zconf.gw_mac, zconf.target_port,
 		    &probe_data);
 	}
 	pthread_mutex_unlock(&send_mutex);
@@ -438,18 +452,19 @@ int send_run(sock_t st, shard_t *s)
 					lock_file(stdout);
 					zconf.probe_module->print_packet(stdout,
 									 buf);
+					zconf.probe_module->print_packet(stdout,
+									 buf2);
 					unlock_file(stdout);
 				} else {
-					void *contents =
-					    buf +
-					    zconf.send_ip_pkts *
-						sizeof(struct ether_header);
-					length -= (zconf.send_ip_pkts *
-						   sizeof(struct ether_header));
+					void *contents = buf + zconf.send_ip_pkts * sizeof(struct ether_header);
+					length -= (zconf.send_ip_pkts * sizeof(struct ether_header));
+
+					void *contents2 = buf2 + zconf.send_ip_pkts * sizeof(struct ether_header);
+					length2 -= (zconf.send_ip_pkts * sizeof(struct ether_header));
+
 					int any_sends_successful = 0;
 					for (int i = 0; i < attempts; ++i) {
-						int rc = send_packet(
-						    st, contents, length, idx);
+						int rc = send_packet(st, contents, length, idx);
 						if (rc < 0) {
 							// IPv6
 							if (ipv6) {
@@ -475,9 +490,38 @@ int send_run(sock_t st, shard_t *s)
 										errno));
 								}
 							}
-						} else {
-							any_sends_successful =
-							    1;
+						}
+						int rc2 = send_packet(st, contents2, length2, idx);
+						if (rc2 < 0) {
+							// IPv6
+							if (ipv6) {
+								char ipv6_str[100];
+								inet_ntop(AF_INET6, &ipv6_dst, ipv6_str, 100-1);
+								log_debug("send", "send_packet failed for %s. %s",
+										  ipv6_str, strerror(errno));
+							} else {
+								struct in_addr addr;
+								addr.s_addr = current_ip;
+								char addr_str_buf[INET_ADDRSTRLEN];
+								const char *addr_str =
+								    inet_ntop(
+									AF_INET, &addr,
+									addr_str_buf,
+									INET_ADDRSTRLEN);
+								if (addr_str != NULL) {
+									log_debug(
+									"send",
+									"send_packet failed for %s. %s",
+									addr_str,
+									strerror(
+										errno));
+								}
+							}
+						} 
+						
+						
+						if(rc >= 0 && rc2 >= 0){
+							any_sends_successful =1;
 							break;
 						}
 					}
