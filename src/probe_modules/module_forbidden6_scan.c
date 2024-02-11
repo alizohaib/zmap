@@ -42,6 +42,13 @@ static int forbidden6scan_global_initialize(struct state_conf *state)
 	printf("Starting module. Packet out size: %d\n",
 	       TOTAL_LEN_PAYLOAD + TOTAL_LEN);
 	num_ports = state->source_port_last - state->source_port_first + 1;
+
+	if (asprintf((char **restrict)&module_forbidden6_scan.pcap_filter,
+		     "%s && ip6 dst host %s",
+		     module_forbidden6_scan.pcap_filter,
+		     state->ipv6_source_ip) == -1) {
+		return 1;
+	}
 	return EXIT_SUCCESS;
 }
 
