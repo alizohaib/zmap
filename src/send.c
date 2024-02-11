@@ -431,12 +431,12 @@ int send_run(sock_t st, shard_t *s)
 						     (uint8_t *)validation);
 				}
 				uint8_t ttl = zconf.probe_ttl;
-				size_t length = 0;
+				size_t length = zconf.probe_module->max_packet_length;
 				zconf.probe_module->make_packet(
 				    buf, &length, src_ip, current_ip, ttl,
 				    validation, i, probe_data);
 
-				size_t length2 = 0;
+				size_t length2 = zconf.probe_module->max_packet2_length;
 				zconf.probe_module->make_packet2(
 				    buf, &length2, src_ip, current_ip, ttl,
 				    validation, i, probe_data);
