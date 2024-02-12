@@ -218,6 +218,7 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	// struct ip *ip_hdr = (struct ip *)&packet[sizeof(struct ether_header)];
 	// struct tcphdr *tcp =(struct tcphdr *)((char *)ip_hdr + 4 * ip_hdr->ip_hl);
 
+	printf("Any received packet\n");
 	struct ether_header *eth_hdr = (struct ether_header *)packet;
 	struct ip6_hdr *ipv6_hdr = (struct ip6_hdr *)(&eth_hdr[1]);
 	struct tcphdr *tcp_hdr = (struct tcphdr *)(&ipv6_hdr[1]);
