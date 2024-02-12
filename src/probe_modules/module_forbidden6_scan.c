@@ -93,9 +93,9 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	struct ip6_hdr *ip6_header = (struct ip6_hdr *)(&eth_header[1]);
 	struct tcphdr *tcp_header = (struct tcphdr *)(&ip6_header[1]);
 	// Subtract one for the SYN packet
-	// uint32_t tcp_seq = ntohl(htonl(validation[0]) - 1);
-	uint32_t tcp_seq = validation[0];
-	// uint32_t tcp_ack = 0;
+	uint32_t tcp_seq = ntohl(htonl(validation[0]) - 1);
+	// uint32_t tcp_seq = validation[0];
+	uint32_t tcp_ack = 0;
 	//validation[2]; // get_src_port() below uses validation 1 internally.
 
 	ip6_header->ip6_src = ((struct in6_addr *) arg )[0];
@@ -104,7 +104,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 
 	tcp_header->th_sport = htons(get_src_port(num_ports, probe_num, validation));
 	tcp_header->th_seq = tcp_seq;
-	// tcp_header->th_sum = 0;
+	tcp_header->th_sum = 0;
 	unsigned short len_tcp = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN;
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    len_tcp, &ip6_header->ip6_src, &ip6_header->ip6_dst,
