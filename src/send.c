@@ -432,15 +432,7 @@ int send_run(sock_t st, shard_t *s)
 				}
 				uint8_t ttl = zconf.probe_ttl;
 				size_t length = 0;
-				if(ipv6){
-					zconf.probe_module->make_packet(
-					    buf, &length, ipv6_src, ipv6_dst,
-					    ttl, validation, i, probe_data);
-				} else {
-					zconf.probe_module->make_packet(
-					    buf, &length, src_ip, current_ip, ttl,
-					    validation, i, probe_data);
-				}
+				
 				zconf.probe_module->make_packet(
 				    buf, &length, src_ip, current_ip, ttl,
 				    validation, i, probe_data);
