@@ -28,7 +28,7 @@
 #define PAYLOAD "GET / HTTP/1.1\r\nHost: " HOST "\r\n\r\n"
 #define PAYLOAD_LEN strlen(PAYLOAD)
 #define TOTAL_LEN sizeof(struct ip) + sizeof(struct tcphdr)
-#define TOTAL_LEN_PAYLOAD sizeof(struct ip) + sizeof(struct tcphdr) + PAYLOAD_LEN
+#define TOTAL_LEN_PAYLOAD 40 + sizeof(struct tcphdr) + PAYLOAD_LEN
 #define ETHER_LEN sizeof(struct ether_header)
 #define IP_LEN sizeof(struct ip)
 
