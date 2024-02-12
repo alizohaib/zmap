@@ -185,17 +185,20 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 
 	// validate source port
 	if (ntohs(sport) != zconf.target_port) {
+		printf("four\n");
 		return 0;
 	}
 
 	// validate destination port
 	if (!check_dst_port(ntohs(dport), num_ports, validation)) {
+		printf("two\n");
 		return 0;
 	}
 
 	if ((htonl(tcp_hdr->th_ack) != htonl(validation[0]) + PAYLOAD_LEN) &&
 	    (htonl(tcp_hdr->th_ack) != htonl(validation[0])) &&
 	    (htonl(tcp_hdr->th_seq) != htonl(validation[2]))) {
+		printf("one\n");
 		return 0;
 	}
 
@@ -230,7 +233,7 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	fs_add_uint64(fs, "len", (uint64_t)mylen);
 	fs_add_uint64(fs, "flags", (uint64_t)tcp_hdr->th_flags);
 
-	// ip_
+	printf("Will this run>");
 	// fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ipv6_hdr->ip_id));
 
     // Attempt to track why an IP responded - did it acknolwedge our payload or not? 
