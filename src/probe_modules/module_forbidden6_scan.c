@@ -182,7 +182,7 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	uint16_t sport = tcp_hdr->th_sport;
 	uint16_t dport = tcp_hdr->th_dport;
 
-	printf("VALIDATE SOURCE PORT", ntohs(sport));
+	printf("VALIDATE SOURCE PORT %d \n", ntohs(sport));
 	// validate source port
 	if (ntohs(sport) != zconf.target_port) {
 		printf("four\n");
