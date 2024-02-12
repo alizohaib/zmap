@@ -228,6 +228,7 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	fs_add_uint64(fs, "len", (uint64_t)mylen);
 	fs_add_uint64(fs, "flags", (uint64_t)tcp_hdr->th_flags);
 
+	printf("Did this ever get called\n");
 	// ip_
 	// fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ipv6_hdr->ip_id));
 
