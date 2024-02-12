@@ -162,6 +162,8 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
         __attribute__((unused)) uint32_t *src_ip,
         uint32_t *validation)
 {
+	printf("Did this ever get called\n");
+
 	struct ip6_hdr *ipv6_hdr = (struct ip6_hdr *)ip_hdr;
 
 	if (ipv6_hdr->ip6_ctlun.ip6_un1.ip6_un1_nxt != IPPROTO_TCP) {
@@ -228,7 +230,6 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	fs_add_uint64(fs, "len", (uint64_t)mylen);
 	fs_add_uint64(fs, "flags", (uint64_t)tcp_hdr->th_flags);
 
-	printf("Did this ever get called\n");
 	// ip_
 	// fs_add_uint64(fs, "ipid", (uint64_t)ntohs(ipv6_hdr->ip_id));
 
