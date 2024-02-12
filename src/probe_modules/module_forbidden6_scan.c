@@ -227,7 +227,9 @@ static void forbidden6scan_process_packet(const u_char *packet,
 
 	char *payload = (char *)(&tcp_hdr[1]);
 	int mylen = ntohs(ipv6_hdr->ip6_ctlun.ip6_un1.ip6_un1_plen);
-	int payloadlen = mylen - IP_LEN - (tcp_hdr->th_off * 4);
+	int payloadlen = ntohs(ipv6_hdr->ip6_ctlun.ip6_un1.ip6_un1_plen);
+	// int payloadlen = mylen - IP_LEN - (tcp_hdr->th_off * 4);
+
 	mylen += ETHER_LEN;
 
 	fs_add_uint64(fs, "sport", (uint64_t)ntohs(tcp_hdr->th_sport));
