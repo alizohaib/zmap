@@ -105,6 +105,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	tcp_header->th_sport = htons(get_src_port(num_ports, probe_num, validation));
 	tcp_header->th_seq = validation[0];
 	tcp_header->th_sum = 0;
+	tcp_header->th_ack = tcp_ack;
 	
 
 	tcp_header->th_sum = ipv6_payload_checksum(
