@@ -241,14 +241,14 @@ static void forbidden6scan_process_packet(const u_char *packet,
     // Attempt to track why an IP responded - did it acknolwedge our payload or not? 
     // If it acknowledges our payload, than it is probably responding to our payload
     // otherwise, it may just be sending us SYN/ACKs or responses
-    // if (htonl(tcp_hdr->th_ack) == htonl(validation[0]) + PAYLOAD_LEN) {
-	//     fs_add_uint64(fs, "validation_type", 0);
-    // } else if ((htonl(tcp_hdr->th_ack) == htonl(validation[0])) ||
-    //            (htonl(tcp_hdr->th_seq) == htonl(validation[2]))) {
-	//     fs_add_uint64(fs, "validation_type", 1);
-    // } else {
-	//     fs_add_uint64(fs, "validation_type", 2);
-    // }
+    if (htonl(tcp_hdr->th_ack) == htonl(validation[0]) + PAYLOAD_LEN) {
+	    fs_add_uint64(fs, "validation_type", 0);
+    } else if ((htonl(tcp_hdr->th_ack) == htonl(validation[0])) ||
+               (htonl(tcp_hdr->th_seq) == htonl(validation[2]))) {
+	    fs_add_uint64(fs, "validation_type", 1);
+    } else {
+	    fs_add_uint64(fs, "validation_type", 2);
+    }
 
 	// fs_add_string(fs, "classification", "", 0);
 	//fs_add_string(fs, "classification", (char *)payload, 0);
@@ -273,7 +273,7 @@ static fielddef_t myfields[] = {
     {.name = "payloadlen", .type = "int", .desc = "Payload Length"},
     {.name = "len", .type = "int", .desc = "Packet size"},
     {.name = "flags", .type = "int", .desc = "Packet flags"},
-    // {.name = "validation_type", .type = "int", .desc = "Type of Validation"},
+    {.name = "validation_type", .type = "int", .desc = "Type of Validation"},
     {.name = "classification",.type = "string",.desc = "packet classification"},
     {.name = "success", .type = "bool", .desc = "is response considered success"}};
 
