@@ -505,19 +505,19 @@ int send_run(sock_t st, shard_t *s)
 								log_debug("send", "send_packet failed for %s. %s",
 										  ipv6_str, strerror(errno));
 							} else {
-								struct in_addr addr;
-								addr.s_addr = current_ip;
-								char addr_str_buf[INET_ADDRSTRLEN];
-								const char *addr_str =
+								struct in_addr addr2;
+								addr2.s_addr = current_ip;
+								char addr_str_buf2[INET_ADDRSTRLEN];
+								const char *addr_str2 =
 								    inet_ntop(
-									AF_INET, &addr,
-									addr_str_buf,
+									AF_INET, &addr2,
+									addr_str_buf2,
 									INET_ADDRSTRLEN);
-								if (addr_str != NULL) {
+								if (addr_str2 != NULL) {
 									log_debug(
 									"send",
 									"send_packet failed for %s. %s",
-									addr_str,
+									addr_str2,
 									strerror(
 										errno));
 								}
