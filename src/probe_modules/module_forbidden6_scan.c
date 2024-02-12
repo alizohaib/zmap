@@ -242,18 +242,26 @@ static void forbidden6scan_process_packet(const u_char *packet,
     // Attempt to track why an IP responded - did it acknolwedge our payload or not? 
     // If it acknowledges our payload, than it is probably responding to our payload
     // otherwise, it may just be sending us SYN/ACKs or responses
-    if (htonl(tcp_hdr->th_ack) == htonl(validation[0]) + PAYLOAD_LEN) {
-	    fs_add_uint64(fs, "validation_type", 0);
-    } else if ((htonl(tcp_hdr->th_ack) == htonl(validation[0])) ||
-               (htonl(tcp_hdr->th_seq) == htonl(validation[2]))) {
-	    fs_add_uint64(fs, "validation_type", 1);
-    } else {
-	    fs_add_uint64(fs, "validation_type", 2);
-    }
+    // if (htonl(tcp_hdr->th_ack) == htonl(validation[0]) + PAYLOAD_LEN) {
+	//     fs_add_uint64(fs, "validation_type", 0);
+    // } else if ((htonl(tcp_hdr->th_ack) == htonl(validation[0])) ||
+    //            (htonl(tcp_hdr->th_seq) == htonl(validation[2]))) {
+	//     fs_add_uint64(fs, "validation_type", 1);
+    // } else {
+	//     fs_add_uint64(fs, "validation_type", 2);
+    // }
 
-	fs_add_string(fs, "classification", "", 0);
+	// fs_add_string(fs, "classification", "", 0);
 	//fs_add_string(fs, "classification", (char *)payload, 0);
-	fs_add_bool(fs, "success", 1);
+	// fs_add_bool(fs, "success", 1);
+
+	if (tcp_hdr->th_flags & TH_RST) { // RST packet
+		fs_add_string(fs, "classification", (char *)"rst", 0);
+		fs_add_uint64(fs, "success", 0);
+	} else { // SYNACK packet
+		fs_add_string(fs, "classification", (char *)"synack", 0);
+		fs_add_uint64(fs, "success", 1);
+	}
 }
 
 
