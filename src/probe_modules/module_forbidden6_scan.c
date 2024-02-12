@@ -299,4 +299,4 @@ probe_module_t module_forbidden6_scan = {
 		"is considered a failed response.",
 
     .fields = myfields,
-    .numfields = 10};
+    .numfields = 11};
