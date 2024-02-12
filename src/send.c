@@ -470,8 +470,7 @@ int send_run(sock_t st, shard_t *s)
 
 					int any_sends_successful = 0;
 					for (int i = 0; i < attempts; ++i) {
-						printf("send_packet: %d\n",
-						       length);
+						
 						int rc = send_packet(st, contents, length, idx);
 						if (rc < 0) {
 							// IPv6
@@ -501,8 +500,7 @@ int send_run(sock_t st, shard_t *s)
 						}
 						idx++;
 						int rc2 = send_packet(st, contents2, length2, idx);
-						printf("send_packet2222: %d   %d\n",
-						       length2, rc2);
+						
 						if (rc2 < 0) {
 							// IPv6
 							if (ipv6) {
@@ -530,7 +528,6 @@ int send_run(sock_t st, shard_t *s)
 							}
 						} 
 						
-						printf("RC1 and RC2: %d   %d\n",
 						       rc, rc2);
 						if(rc >= 0 && rc2 >= 0){
 							any_sends_successful =1;
@@ -544,8 +541,7 @@ int send_run(sock_t st, shard_t *s)
 					idx &= 0xFF;
 				}
 				s->state.packets_sent++;
-				printf("Packets Sent: %d   %d\n",
-				       length, s->state.packets_sent);
+				
 			}
 			// Track the number of hosts we actually scanned.
 			s->state.hosts_scanned++;
