@@ -250,17 +250,17 @@ static void forbidden6scan_process_packet(const u_char *packet,
 	    fs_add_uint64(fs, "validation_type", 2);
     }
 
-	// fs_add_string(fs, "classification", "", 0);
+	fs_add_string(fs, "classification", "", 0);
 	//fs_add_string(fs, "classification", (char *)payload, 0);
-	// fs_add_bool(fs, "success", 1);
+	fs_add_bool(fs, "success", 1);
 
-	if (tcp_hdr->th_flags & TH_RST) { // RST packet
-		fs_add_string(fs, "classification", (char *)"rst", 0);
-		fs_add_uint64(fs, "success", 0);
-	} else { // SYNACK packet
-		fs_add_string(fs, "classification", (char *)"synack", 0);
-		fs_add_uint64(fs, "success", 1);
-	}
+	// if (tcp_hdr->th_flags & TH_RST) { // RST packet
+	// 	fs_add_string(fs, "classification", (char *)"rst", 0);
+	// 	fs_add_uint64(fs, "success", 0);
+	// } else { // SYNACK packet
+	// 	fs_add_string(fs, "classification", (char *)"synack", 0);
+	// 	fs_add_uint64(fs, "success", 1);
+	// }
 }
 
 
