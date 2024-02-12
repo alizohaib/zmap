@@ -194,7 +194,7 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 		printf("two\n");
 		return 0;
 	}
-
+	print("VALIDATE ACK %d \n", htonl(tcp_hdr->th_ack));
 	if (htonl(tcp_hdr->th_ack) != htonl(validation[0]) + 1) {
 		printf("one\n");
 		return 0;
