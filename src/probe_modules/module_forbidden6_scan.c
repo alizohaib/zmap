@@ -172,6 +172,7 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	// 	// buffer not large enough to contain expected tcp header 
 	// 	return 0;
 	// }
+	printf("VALUDDDD")
 
 	if ((ntohs(ipv6_hdr->ip6_ctlun.ip6_un1.ip6_un1_plen)) > len) {
 		// buffer not large enough to contain expected tcp header, i.e. IPv6 payload
@@ -195,6 +196,7 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	}
 
 	if (htonl(tcp_hdr->th_ack) != htonl(validation[0]) + 1) {
+		printf("one\n");
 		return 0;
 	}
 
