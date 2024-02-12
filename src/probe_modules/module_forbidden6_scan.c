@@ -107,10 +107,10 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	tcp_header->th_seq = tcp_seq;
 	tcp_header->th_sum = 0;
 	// tcp_header->th_ack = tcp_ack;
-
+	unsigned short len_tcp = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN;
 	tcp_header->th_sum = ipv6_payload_checksum(
-	    ZMAPV6_TCP_SYNSCAN_PACKET_LEN, &ip6_header->ip6_src,
-	    &ip6_header->ip6_dst, (unsigned short *)tcp_header, IPPROTO_TCP);
+	    len_tcp, &ip6_header->ip6_src, &ip6_header->ip6_dst,
+	    (unsigned short *)tcp_header, IPPROTO_TCP);
 
 	// No ip checksum in IPv6 IP header
 
