@@ -265,6 +265,7 @@ int send_run(sock_t st, shard_t *s)
 	}
 	log_debug("send", "source MAC address %s", mac_buf);
 	void *probe_data;
+	void *probe_data2;
 	if (zconf.probe_module->thread_initialize) {
 		zconf.probe_module->thread_initialize(
 		    buf, zconf.hw_mac, zconf.gw_mac, zconf.target_port,
@@ -272,7 +273,7 @@ int send_run(sock_t st, shard_t *s)
 
 		zconf.probe_module->thread_initialize2(
 		    buf2, zconf.hw_mac, zconf.gw_mac, zconf.target_port,
-		    &probe_data);
+		    &probe_data2);
 	}
 	pthread_mutex_unlock(&send_mutex);
 
@@ -317,6 +318,7 @@ int send_run(sock_t st, shard_t *s)
 	if (ipv6) {
 		ipv6_target_file_get_ipv6(&ipv6_dst);
 		probe_data = malloc(2*sizeof(struct in6_addr));
+		probe_data2 = malloc(2 * sizeof(struct in6_addr));
 	} else {
 		current_ip = shard_get_cur_ip(s);
 
@@ -425,6 +427,9 @@ int send_run(sock_t st, shard_t *s)
 				if (ipv6) {
 					((struct in6_addr *) probe_data)[0] = ipv6_src;
 					((struct in6_addr *) probe_data)[1] = ipv6_dst;
+
+					((struct in6_addr *) probe_data2)[0] = ipv6_src;
+					((struct in6_addr *) probe_data2)[1] = ipv6_dst;
 					validate_gen_ipv6(&ipv6_src, &ipv6_dst, (uint8_t *)validation);
 				} else {
 					validate_gen(src_ip, current_ip,
@@ -440,7 +445,7 @@ int send_run(sock_t st, shard_t *s)
 				size_t length2 = zconf.probe_module->max_packet2_length;
 				zconf.probe_module->make_packet2(
 				    buf, &length2, src_ip, current_ip, ttl,
-				    validation, i, probe_data);
+				    validation, i, probe_data2);
 
 				if (length > MAX_PACKET_SIZE) {
 					log_fatal(
