@@ -105,8 +105,8 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 
 	tcp_header->th_sport = htons(get_src_port(num_ports, probe_num, validation));
 	tcp_header->th_seq = tcp_seq;
-	tcp_header->th_sum = 0;
-	// tcp_header->th_ack = tcp_ack;
+	// tcp_header->th_sum = 0;
+	tcp_header->th_ack = tcp_ack;
 	unsigned short len_tcp = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN;
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    len_tcp, &ip6_header->ip6_src, &ip6_header->ip6_dst,
