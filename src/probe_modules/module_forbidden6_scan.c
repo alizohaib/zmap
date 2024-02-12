@@ -131,15 +131,12 @@ static int forbidden6scan_make_packet2(void *buf, UNUSED size_t *buf_len,
 	ip6_header->ip6_dst = ((struct in6_addr *)arg)[1];
 	ip6_header->ip6_ctlun.ip6_un1.ip6_un1_hlim = ttl;
 
-	tcp_header->th_sport =
-	    htons(get_src_port(num_ports, probe_num, validation));
+	tcp_header->th_sport = htons(get_src_port(num_ports, probe_num, validation));
 	tcp_header->th_seq = validation[0];
 	tcp_header->th_ack = tcp_ack;
 	tcp_header->th_sum = 0;
 
-	printf("------------------");
-	printf(ip6_header->ip6_src);
-	printf("------------------");
+	printf(src_ip);
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    sizeof(struct tcphdr) + PAYLOAD_LEN, &ip6_header->ip6_src,
 	    &ip6_header->ip6_dst, (unsigned short *)tcp_header, IPPROTO_TCP);
