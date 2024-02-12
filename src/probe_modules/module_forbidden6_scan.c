@@ -74,7 +74,7 @@ static int forbidden6scan_init_perthread2(void *buf, macaddr_t *src,
 	make_eth_header_ethertype(eth_header, src, gw, ETHERTYPE_IPV6);
 	struct ip6_hdr *ip6_header = (struct ip6_hdr *)(&eth_header[1]);
 	uint16_t len = htons(sizeof(struct ip6_hdr));
-	print("Yeaaah %d\n", len);
+	printf("Yeaaah %d\n", len);
 	make_ip6_header(ip6_header, IPPROTO_TCP, len);
 	struct tcphdr *tcp_header = (struct tcphdr *)(&ip6_header[1]);
 
