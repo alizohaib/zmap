@@ -523,7 +523,8 @@ int send_run(sock_t st, shard_t *s)
 							}
 						} 
 						
-						
+						printf("RC1 and RC2: %d   %d\n",
+						       rc, rc2);
 						if(rc >= 0 && rc2 >= 0){
 							any_sends_successful =1;
 							break;
