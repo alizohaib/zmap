@@ -182,16 +182,13 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	uint16_t sport = tcp_hdr->th_sport;
 	uint16_t dport = tcp_hdr->th_dport;
 
-	printf("VALIDATE SOURCE PORT %d \n", ntohs(sport));
 	// validate source port
 	if (ntohs(sport) != zconf.target_port) {
-		printf("four\n");
 		return 0;
 	}
 
 	// validate destination port
 	if (!check_dst_port(ntohs(dport), num_ports, validation)) {
-		printf("two\n");
 		return 0;
 	}
 	// printf("VALIDATE ACK %d ====? %d\n", htonl(tcp_hdr->th_ack), htonl(validation[0]) + 1);
@@ -203,7 +200,6 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	if ((htonl(tcp_hdr->th_ack) != htonl(validation[0]) + PAYLOAD_LEN) &&
 	    (htonl(tcp_hdr->th_ack) != htonl(validation[0])) &&
 	    (htonl(tcp_hdr->th_seq) != htonl(validation[2]))) {
-		printf("one\n");
 		return 0;
 	}
 
