@@ -536,6 +536,8 @@ int send_run(sock_t st, shard_t *s)
 					idx &= 0xFF;
 				}
 				s->state.packets_sent++;
+				printf("Packets Sent: %d   %d\n",
+				       length, s->state.packets_sent);
 			}
 			// Track the number of hosts we actually scanned.
 			s->state.hosts_scanned++;
