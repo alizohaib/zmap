@@ -30,7 +30,7 @@
 #define TOTAL_LEN sizeof(struct ip6_hdr) + sizeof(struct tcphdr)
 #define TOTAL_LEN_PAYLOAD sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + PAYLOAD_LEN
 #define ETHER_LEN sizeof(struct ether_header)
-#define IP_LEN sizeof(struct ip)
+#define IP_LEN sizeof(struct ip6_hdr)
 
 probe_module_t module_forbidden6_scan;
 static uint32_t num_ports;
