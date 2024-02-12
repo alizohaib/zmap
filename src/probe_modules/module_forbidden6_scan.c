@@ -195,6 +195,10 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 		return 0;
 	}
 
+	if (htonl(tcp_hdr->th_ack) != htonl(validation[0]) + 1) {
+		return 0;
+	}
+
 	// if ((htonl(tcp_hdr->th_ack) != htonl(validation[0]) + PAYLOAD_LEN) &&
 	//     (htonl(tcp_hdr->th_ack) != htonl(validation[0])) &&
 	//     (htonl(tcp_hdr->th_seq) != htonl(validation[2]))) {
