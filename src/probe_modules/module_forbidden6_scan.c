@@ -125,7 +125,7 @@ static int forbidden6scan_make_packet2(void *buf, UNUSED size_t *buf_len,
 	struct ip6_hdr *ip6_header = (struct ip6_hdr *)(&eth_header[1]);
 	struct tcphdr *tcp_header = (struct tcphdr *)(&ip6_header[1]);
 	uint32_t tcp_seq = validation[0];
-	// uint32_t tcp_ack =validation[2]; // get_src_port() below uses validation 1 internally.
+	uint32_t tcp_ack =validation[2]; // get_src_port() below uses validation 1 internally.
 
 	ip6_header->ip6_src = ((struct in6_addr *)arg)[0];
 	ip6_header->ip6_dst = ((struct in6_addr *)arg)[1];
@@ -134,10 +134,9 @@ static int forbidden6scan_make_packet2(void *buf, UNUSED size_t *buf_len,
 	tcp_header->th_sport =
 	    htons(get_src_port(num_ports, probe_num, validation));
 	tcp_header->th_seq = validation[0];
-	tcp_header->th_ack = 0;
+	tcp_header->th_ack = tcp_ack;
 	tcp_header->th_sum = 0;
 
-	printf("CHCCCCCC");
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    sizeof(struct tcphdr) + PAYLOAD_LEN, &ip6_header->ip6_src,
 	    &ip6_header->ip6_dst, (unsigned short *)tcp_header, IPPROTO_TCP);
