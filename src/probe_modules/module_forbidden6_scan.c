@@ -27,8 +27,8 @@
 // #define TCP_FLAGS TH_PUSH | TH_ACK
 #define PAYLOAD "GET / HTTP/1.1\r\nHost: " HOST "\r\n\r\n"
 #define PAYLOAD_LEN strlen(PAYLOAD)
-#define TOTAL_LEN sizeof(struct ip) + sizeof(struct tcphdr)
-#define TOTAL_LEN_PAYLOAD 40 + sizeof(struct tcphdr) + PAYLOAD_LEN
+#define TOTAL_LEN sizeof(struct ip6_hdr) + sizeof(struct tcphdr)
+#define TOTAL_LEN_PAYLOAD sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + PAYLOAD_LEN
 #define ETHER_LEN sizeof(struct ether_header)
 #define IP_LEN sizeof(struct ip)
 
@@ -73,7 +73,7 @@ static int forbidden6scan_init_perthread2(void *buf, macaddr_t *src,
 	struct ether_header *eth_header = (struct ether_header *)buf;
 	make_eth_header_ethertype(eth_header, src, gw, ETHERTYPE_IPV6);
 	struct ip6_hdr *ip6_header = (struct ip6_hdr *)(&eth_header[1]);
-	uint16_t len = htons(sizeof(struct ip6_hdr) + sizeof(struct tcphdr) + PAYLOAD_LEN);
+	uint16_t len = TOTAL_LEN_PAYLOAD;
 	make_ip6_header(ip6_header, IPPROTO_TCP, len);
 	struct tcphdr *tcp_header = (struct tcphdr *)(&ip6_header[1]);
 
