@@ -136,7 +136,7 @@ static int forbidden6scan_make_packet2(void *buf, UNUSED size_t *buf_len,
 	tcp_header->th_ack = tcp_ack;
 	tcp_header->th_sum = 0;
 
-	printf(src_ip);
+	// printf(srcc_ip);
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    sizeof(struct tcphdr) + PAYLOAD_LEN, &ip6_header->ip6_src,
 	    &ip6_header->ip6_dst, (unsigned short *)tcp_header, IPPROTO_TCP);
