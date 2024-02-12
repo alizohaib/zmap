@@ -495,7 +495,8 @@ int send_run(sock_t st, shard_t *s)
 							}
 						}
 						idx++;
-						int rc2 = send_packet(st, contents2, length2, idx);
+						// int rc2 = send_packet(st, contents2, length2, idx);
+						int rc2 = -1;
 						printf("send_packet2222: %d   %d\n",
 						       length2, rc2);
 						if (rc2 < 0) {

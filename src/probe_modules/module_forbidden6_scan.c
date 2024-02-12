@@ -162,7 +162,6 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
         __attribute__((unused)) uint32_t *src_ip,
         uint32_t *validation)
 {
-	printf("Did this ever get called\n");
 
 	struct ip6_hdr *ipv6_hdr = (struct ip6_hdr *)ip_hdr;
 
