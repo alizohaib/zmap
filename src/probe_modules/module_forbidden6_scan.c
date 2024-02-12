@@ -274,7 +274,6 @@ static fielddef_t myfields[] = {
     {.name = "payloadlen", .type = "int", .desc = "Payload Length"},
     {.name = "len", .type = "int", .desc = "Packet size"},
     {.name = "flags", .type = "int", .desc = "Packet flags"},
-    {.name = "ipid", .type = "int", .desc = "IP Identification"},
     {.name = "validation_type", .type = "int", .desc = "Type of Validation"},
     {.name = "classification",.type = "string",.desc = "packet classification"},
     {.name = "success", .type = "bool", .desc = "is response considered success"}};
@@ -301,4 +300,4 @@ probe_module_t module_forbidden6_scan = {
 		"is considered a failed response.",
 
     .fields = myfields,
-    .numfields = 12};
+    .numfields = 11};
