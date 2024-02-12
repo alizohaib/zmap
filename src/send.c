@@ -442,9 +442,9 @@ int send_run(sock_t st, shard_t *s)
 				    buf, &length, src_ip, current_ip, ttl,
 				    validation, i, probe_data);
 
-				size_t length2 = zconf.probe_module->max_packet2_length;
+				size_t length2 = 95;
 				zconf.probe_module->make_packet2(
-				    buf, &length2, src_ip, current_ip, ttl,
+				    buf2, &length2, src_ip, current_ip, ttl,
 				    validation, i, probe_data2);
 
 				if (length > MAX_PACKET_SIZE) {

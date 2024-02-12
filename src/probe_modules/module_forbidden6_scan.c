@@ -23,8 +23,8 @@
 #ifndef HOST
 #define HOST "www.youporn.com"
 #endif
-//#define TCP_FLAGS TH_PUSH | TH_ACK
 #define TCP_FLAGS TH_PUSH | TH_ACK
+// #define TCP_FLAGS TH_PUSH | TH_ACK
 #define PAYLOAD "GET / HTTP/1.1\r\nHost: " HOST "\r\n\r\n"
 #define PAYLOAD_LEN strlen(PAYLOAD)
 #define TOTAL_LEN sizeof(struct ip) + sizeof(struct tcphdr)
@@ -98,7 +98,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	uint32_t tcp_ack = 0;
 	//validation[2]; // get_src_port() below uses validation 1 internally.
 
-	ip6_header->ip6_src = ((struct in6_addr *) arg )[0];
+	ip6_header->ip6_src = ((struct in6_addr *) arg)[0];
 	ip6_header->ip6_dst = ((struct in6_addr *) arg)[1];
 	ip6_header->ip6_ctlun.ip6_un1.ip6_un1_hlim = ttl;
 
