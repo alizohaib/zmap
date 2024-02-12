@@ -172,7 +172,6 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	// 	// buffer not large enough to contain expected tcp header 
 	// 	return 0;
 	// }
-	printf("VALUDDDD");
 
 	if ((ntohs(ipv6_hdr->ip6_ctlun.ip6_un1.ip6_un1_plen)) > len) {
 		// buffer not large enough to contain expected tcp header, i.e. IPv6 payload
@@ -183,6 +182,7 @@ static int forbidden6scan_validate_packet(const struct ip *ip_hdr, uint32_t len,
 	uint16_t sport = tcp_hdr->th_sport;
 	uint16_t dport = tcp_hdr->th_dport;
 
+	printf("VALIDATE SOURCE PORT", ntohs(sport));
 	// validate source port
 	if (ntohs(sport) != zconf.target_port) {
 		printf("four\n");
@@ -284,7 +284,7 @@ probe_module_t module_forbidden6_scan = {
     .name = "forbidden6_scan",
     .max_packet_length = ZMAPV6_TCP_SYNSCAN_PACKET_LEN,
     .max_packet2_length = TOTAL_LEN_PAYLOAD + ETHER_LEN,
-    .pcap_filter = "ip6 proto 6",
+    .pcap_filter = "ip6 proto 6 && tcp",
     .pcap_snaplen = 116, // was 96 for IPv4
     .port_args = 1,
     .global_initialize = &forbidden6scan_global_initialize,
