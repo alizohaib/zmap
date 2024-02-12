@@ -113,6 +113,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	    (unsigned short *)tcp_header, IPPROTO_TCP);
 
 	// No ip checksum in IPv6 IP header
+	*buf_len = ZMAPV6_TCP_SYNSCAN_PACKET_LEN;
 
 	return EXIT_SUCCESS;
 }
