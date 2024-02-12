@@ -40,7 +40,6 @@ static int forbidden6scan_global_initialize(struct state_conf *state)
 {
 	printf("Starting module. Packet out size: %d\n",TOTAL_LEN_PAYLOAD + TOTAL_LEN);
 	num_ports = state->source_port_last - state->source_port_first + 1;
-	printf("Ports: %d\n",num_ports);
 	if (asprintf((char **restrict)&module_forbidden6_scan.pcap_filter,
 		     "%s && ip6 dst host %s",
 		     module_forbidden6_scan.pcap_filter,
@@ -96,7 +95,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	// Subtract one for the SYN packet
 	// uint32_t tcp_seq = ntohl(htonl(validation[0]) - 1);
 	uint32_t tcp_seq = validation[0];
-	uint32_t tcp_ack = 0;
+	// uint32_t tcp_ack = 0;
 	//validation[2]; // get_src_port() below uses validation 1 internally.
 
 	ip6_header->ip6_src = ((struct in6_addr *) arg )[0];
@@ -106,7 +105,7 @@ static int forbidden6scan_make_packet(void *buf, UNUSED size_t *buf_len,
 	tcp_header->th_sport = htons(get_src_port(num_ports, probe_num, validation));
 	tcp_header->th_seq = tcp_seq;
 	// tcp_header->th_sum = 0;
-	unsigned short len_tcp = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN+40;
+	unsigned short len_tcp = ZMAPV6_TCP_SYNSCAN_TCP_HEADER_LEN;
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    len_tcp, &ip6_header->ip6_src, &ip6_header->ip6_dst,
 	    (unsigned short *)tcp_header, IPPROTO_TCP);
@@ -138,6 +137,7 @@ static int forbidden6scan_make_packet2(void *buf, UNUSED size_t *buf_len,
 	tcp_header->th_ack = 0;
 	tcp_header->th_sum = 0;
 
+	printf("CHCCCCCC")
 	tcp_header->th_sum = ipv6_payload_checksum(
 	    sizeof(struct tcphdr) + PAYLOAD_LEN, &ip6_header->ip6_src,
 	    &ip6_header->ip6_dst, (unsigned short *)tcp_header, IPPROTO_TCP);
